@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import { Redirect } from "react-router-dom";
-import withContext from "../withContext";
+import withContext from "../Context/withContext";
 
 class Login extends Component {
   constructor(props) {
