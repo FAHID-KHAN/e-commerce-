@@ -45,6 +45,18 @@ export default class App extends Component {
     localStorage.setItem("cart", JSON.stringify(cart));
     this.setState({ cart });
   };
+  removeFromCart = cartItemId => {
+    let cart = this.state.cart;
+    delete cart[cartItemId];
+    localStorage.setItem("cart", JSON.stringify(cart));
+    this.setState({ cart });
+  };
+
+  clearCart = () => {
+    let cart = {};
+    localStorage.removeItem("cart");
+    this.setState({ cart });
+  };
   login = async (email, password) => {
     const res = await axios
       .post("http://localhost:3001/login", { email, password })
