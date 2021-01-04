@@ -20,19 +20,30 @@ export default class App extends Component {
   }
   async componentDidMount() {
     let user = localStorage.getItem("user");
+    let cart = localStorage.getItem("cart");
     const products = await axios.get("http://localhost:3001/products");
     user = user ? JSON.parse(user) : null;
-    this.setState({ user, products: products.data });
+    cart = cart ? JSON.parse(cart) : {};
+    this.setState({ user, products: products.data, cart });
   }
-  componentDidMount() {
-    let user = localStorage.getItem("user");
-    user = user ? JSON.parse(user) : null;
-    this.setState({ user });
-  }
+
   addProduct = (product, callback) => {
     let products = this.state.products.slice();
     products.push(product);
     this.setState({ products }, () => callback && callback());
+  };
+  addToCart = cartItem => {
+    let cart = this.state.cart;
+    if (cart[cartItem.id]) {
+      cart[cartItem.id].amount += cartItem.amount;
+    } else {
+      cart[cartItem.id] = cartItem;
+    }
+    if (cart[cartItem.id].amount > cart[cartItem.id].product.stock) {
+      cart[cartItem.id].amount = cart[cartItem.id].product.stock;
+    }
+    localStorage.setItem("cart", JSON.stringify(cart));
+    this.setState({ cart });
   };
   login = async (email, password) => {
     const res = await axios
