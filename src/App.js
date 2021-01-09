@@ -63,6 +63,26 @@ export default class App extends Component {
       .catch(res => {
         return { status: 401, message: "Unauthorized" };
       });
+    checkout = () => {
+      if (!this.state.user) {
+        this.routerRef.current.history.push("/login");
+        return;
+      }
+
+      const cart = this.state.cart;
+
+      const products = this.state.products.map(p => {
+        if (cart[p.name]) {
+          p.stock = p.stock - cart[p.name].amount;
+
+          axios.put(`http://localhost:3001/products/${p.id}`, { ...p });
+        }
+        return p;
+      });
+
+      this.setState({ products });
+      this.clearCart();
+    };
 
     if (res.status === 200) {
       const { email } = jwt_decode(res.data.accessToken);
