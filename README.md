@@ -10,3 +10,5 @@ Installation Steps (if applicable)
 Visit http://localhost:3000/
 
 5.Log in with either regular@example.com or admin@example.com and the password password.
+
+or if you want see it live https://fahid-khan.github.io/e-commerce-/
